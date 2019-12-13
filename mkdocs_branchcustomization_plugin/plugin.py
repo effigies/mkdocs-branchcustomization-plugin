@@ -57,6 +57,12 @@ class BranchPlugin(BasePlugin):
                 if re.match(match[1:-1], branch_name):
                     log.info(f"Branch {branch_name} matched rule {match}; "
                              f"updating {tuple(rule.keys())}")
-                    config.update(rule)
+                    for key, val in rule.items():
+                        if key.startswith('+'):
+                            key = key[1:]
+                            orig = config.get(key, type(val)())
+                            config[key] = orig + val
+                        else:
+                            config[key] = val
                 
         return config
