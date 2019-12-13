@@ -17,6 +17,23 @@ def get_best_name(repo):
     for ref in repo.tags + repo.heads:
         if ref.commit == head.commit:
             return ref.name
+
+    # Get names from remotes, prioritizing origin and upstream
+    remote_refs = []
+    if 'origin' in repo.remotes:
+        remote_refs += repo.remotes.origin.refs
+    if 'upstream' in repo.remotes:
+        remote_refs += repo.remotes.upstream.refs
+    for remote in repo.remotes:
+        remote_refs += remote.refs
+
+    for ref in remote_refs:
+        if ref.remote_head == 'HEAD':
+            continue
+        if ref.commit == head.commit:
+            return ref.remote_head
+
+    # Fallback to the commit hash
     return head.commit.hexsha
 
 
