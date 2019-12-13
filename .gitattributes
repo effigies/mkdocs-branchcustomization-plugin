@@ -1,0 +1,2 @@
+mkdocs_branch_plugin/_version.py export-subst
+mkdocs_branchcustomization_plugin/_version.py export-subst
