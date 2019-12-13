@@ -10,7 +10,8 @@ plugins:
   - branchcustomization:
       update_config:
         - branch: /master/
-          extra_css: css/master_branch.css
+          extra_css:
+            - css/master_branch.css
 ```
 
 Note that this will *override* the global `extra_css` value.
@@ -22,8 +23,12 @@ plugins:
   - branchcustomization:
       update_config:
         - branch: /(?!^master$)/
-          extra_css: css/draft.css
-          extra_js: js/draft.js
+          +extra_css:
+            - css/draft.css
+          extra_js:
+            - js/draft.js
 ```
 
-This is just to demonstrate that multiple configuration options can be overridden.
+In this case the `+extra_css` indicates that this list should be *appended* to
+the global `extra_css` value, rather than overriding it, while `extra_js` overrides
+the global value.
